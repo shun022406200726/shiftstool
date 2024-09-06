@@ -11,3 +11,4 @@ Route::get('/shifts/data', [ShiftController::class, 'getShifts'])->name('shifts.
 Route::get('/daily-staff', [ShiftController::class, 'getDailyStaff'])->name('shifts.daily-staff');
 Route::post('/shifts/submit', [ShiftController::class, 'submitShift'])->name('shifts.submit');
 Route::get('/payment', [ShiftController::class, 'checkPayment'])->name('payment.check');
+Route::post('/shifts/submit', [ShiftController::class, 'submitShift'])->middleware('auth');

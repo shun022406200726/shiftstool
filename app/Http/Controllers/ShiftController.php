@@ -31,14 +31,9 @@ class ShiftController extends Controller
     {
 
         $date = $request->input('date');
-        Log::debug('受け取った日付: ' . $date);
-
         $shifts = Shift::whereDate('day', $date)->with('employee')->get();
-        Log::debug('クエリ結果: ' . $shifts->toJson());
 
         $dailyStaff = $shifts->map(function ($shift) {
-            Log::debug('シフト: ' . json_encode($shift));
-            Log::debug('従業員: ' . json_encode($shift->employee));
             return [
                 'name' => $shift->employee ? $shift->employee->name : 'Unknown',
             ];
@@ -49,7 +44,17 @@ class ShiftController extends Controller
 
     public function submitShift(Request $request)
     {
-        // シフト提出のロジックをここに実装
+        $shifts = $request->input('shifts');
+        $employeeId = Auth::id(); // 現在ログインしているユーザーのIDを取得
+
+        foreach ($shifts as $day) {
+            Shift::create([
+                'employee_id' => $employeeId,
+                'day' => $day,
+            ]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function checkPayment()

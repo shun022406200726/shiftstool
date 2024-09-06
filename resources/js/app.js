@@ -33,7 +33,6 @@ function toggleDateSelection(info, calendar) {
     const existingEvent = events.find(event =>
         event.start.getTime() === clickedDate.getTime() && event.title === 'シフト希望'
     );
-
     if (existingEvent) {
         // すでに選択されている場合は、イベントを削除
         existingEvent.remove();

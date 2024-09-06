@@ -28,14 +28,42 @@ function changeButtons() {
         `;
 
         document.getElementById('confirmButton').addEventListener('click', function() {
-            console.log('シフトが確定されました');
-            // 確定処理の実装
+            submitShifts(calendar);
         });
 
         document.getElementById('backButton').addEventListener('click', function() {
             location.reload();
         });
     }
+}
+
+function submitShifts(calendar) {
+    const events = calendar.getEvents();
+    const shiftDates = events
+        .filter(event => event.title === 'シフト希望')
+        .map(event => event.start.toISOString().split('T')[0]); // YYYY-MM-DD 形式に変換
+
+    fetch('/api/shifts/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ shifts: shiftDates })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('シフトが正常に登録されました。');
+            location.reload(); // ページをリロード
+        } else {
+            alert('シフトの登録に失敗しました。');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('エラーが発生しました。');
+    });
 }
 
 
