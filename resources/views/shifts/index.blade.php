@@ -5,6 +5,11 @@
     @vite('resources/js/calendar.js')
 @endsection
 @section('content')
+    <div class="header">
+        <div>{{ $storeName }}</div>
+        <div>氏名:{{ $employeeName }}</div>
+    </div>
+
     <div id="buttonContainer">
         <button id="submitShiftButton" class="button">シフト提出</button>
         <button class="button" id="checkPayment">給与確認</button>

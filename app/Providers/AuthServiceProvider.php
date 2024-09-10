@@ -1,12 +1,18 @@
-public function boot()
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+
+class AuthServiceProvider extends ServiceProvider
 {
-    $this->registerPolicies();
+    public function boot()
+    {
+        $this->registerPolicies();
 
-    Gate::define('admin', function ($user) {
-        return $user->role === 'admin';
-    });
-
-    Gate::define('employee', function ($user) {
-        return $user->role === 'employee';
-    });
+        Gate::define('shifts', function ($user) {
+            return $user->role === 'employee' || $user->role === 'manager';
+        });
+    }
 }

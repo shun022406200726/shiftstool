@@ -11,10 +11,7 @@
     @vite('resources/js/app.js')
     </head>
 <body>
-    <div class="header">
-        <div>企業名</div>
-        <div>ID***** 氏名****</div>
-    </div>
+
     <div class="content">
         @yield('content')
     </div>
