@@ -12,7 +12,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('shifts', function ($user) {
-            return $user->role === 'employee' || $user->role === 'manager';
+            return $user->hasRole('employee') || $user->hasRole('manager');
         });
     }
 }
